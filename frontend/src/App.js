@@ -12,7 +12,7 @@ function App() {
   const [newProposal, setNewProposal] = useState({ description: '', duration: '' });
   const [darkMode, setDarkMode] = useState(true);
 
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0xfE8B10574f86647267b565FbFd75ba59aC4eAeD6";
 
   useEffect(() => {
     checkWalletConnection();
@@ -54,8 +54,30 @@ function App() {
       setAccount(accounts[0]);
 
       const provider = new ethers.BrowserProvider(window.ethereum);
+      const network = await provider.getNetwork();
+      console.log("Connected to network:", network);
+      console.log("Chain ID:", network.chainId);
+      
+      if (network.chainId !== 11155111n) {
+        alert('Please switch to Sepolia network (Chain ID: 11155111)');
+        return;
+      }
+
       const signer = await provider.getSigner();
       const votingContract = new ethers.Contract(contractAddress, VotingSystemABI, signer);
+      
+      // Test if contract exists
+      try {
+        const code = await provider.getCode(contractAddress);
+        console.log("Contract code length:", code.length);
+        if (code === '0x') {
+          alert('Contract not found at this address. Please redeploy the contract.');
+          return;
+        }
+      } catch (err) {
+        console.error("Error checking contract:", err);
+      }
+      
       setContract(votingContract);
 
       window.ethereum.on('accountsChanged', (accounts) => {
@@ -64,7 +86,7 @@ function App() {
       });
     } catch (error) {
       console.error("Error connecting wallet:", error);
-      alert("Failed to connect wallet");
+      alert("Failed to connect wallet: " + error.message);
     }
   };
 

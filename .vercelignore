@@ -1,0 +1,12 @@
+node_modules
+.git
+.env
+.env.local
+cache
+artifacts
+test
+scripts
+contracts
+hardhat.config.js
+*.md
+!frontend/README.md
