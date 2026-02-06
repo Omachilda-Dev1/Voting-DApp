@@ -2,21 +2,21 @@
 
 A full-stack decentralized voting application built with Solidity, Hardhat, React, and Ethers.js. This application allows an admin to create voting proposals with deadlines, and users can vote once per proposal using their Ethereum wallet.
 
-## 🎬 Quick Links
+## 🌐 Live Demo
 
-📚 **[Documentation Index](INDEX.md)** - Complete guide to all documentation
+**Try it now!** Connect your MetaMask wallet to Sepolia and start voting!
 
-### Essential Guides
-- **[Getting Started](GETTING_STARTED.md)** - Choose your learning path
-- **[Quick Start](QUICKSTART.md)** - Get running in 5 minutes
-- **[Final Steps](FINAL_STEPS.md)** - Complete your deployment
-- **[Deployment Guide](DEPLOYMENT.md)** - Deploy to testnet/mainnet
+- **Frontend**: https://voting-d-app-chi.vercel.app/
+- **Contract**: `0xfE8B10574f86647267b565FbFd75ba59aC4eAeD6`
+- **Network**: Sepolia Testnet (Chain ID: 11155111)
+- **Etherscan**: https://sepolia.etherscan.io/address/0xfE8B10574f86647267b565FbFd75ba59aC4eAeD6
 
-### Reference
-- **[Features](FEATURES.md)** - Complete feature list
-- **[Commands](COMMANDS.md)** - All commands reference
-- **[Testing Docs](TESTING.md)** - Test suite documentation
-- **[Deliverables](DELIVERABLES.md)** - Requirements verification
+### How to Try:
+1. Visit the [live app](https://voting-d-app-chi.vercel.app/)
+2. Install [MetaMask](https://metamask.io/) if you haven't already
+3. Switch MetaMask to Sepolia network
+4. Get free test ETH from [Sepolia Faucet](https://sepoliafaucet.com/)
+5. Connect your wallet and start voting!
 
 ## ✨ Features
 
