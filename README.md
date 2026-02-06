@@ -18,6 +18,12 @@ A full-stack decentralized voting application built with Solidity, Hardhat, Reac
 4. Get free test ETH from [Sepolia Faucet](https://sepoliafaucet.com/)
 5. Connect your wallet and start voting!
 
+## 📸 Application Preview
+
+![Voting DApp Screenshot](./screenshots/voting%20platform1.PNG)
+
+*Modern dark-themed interface featuring admin proposal creation panel and active voting proposals with real-time vote counts.*
+
 ## ✨ Features
 
 ### Smart Contract (Solidity)
