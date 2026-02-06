@@ -35,7 +35,8 @@ function App() {
       try {
         const accounts = await window.ethereum.request({ method: 'eth_accounts' });
         if (accounts.length > 0) {
-          connectWallet();
+          // User is already connected, set up without requesting permission
+          await setupProvider(accounts[0]);
         }
       } catch (error) {
         console.error("Error checking wallet connection:", error);
@@ -43,16 +44,8 @@ function App() {
     }
   };
 
-  const connectWallet = async () => {
+  const setupProvider = async (accountAddress) => {
     try {
-      if (typeof window.ethereum === 'undefined') {
-        alert('Please install MetaMask!');
-        return;
-      }
-
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      setAccount(accounts[0]);
-
       const provider = new ethers.BrowserProvider(window.ethereum);
       const network = await provider.getNetwork();
       console.log("Connected to network:", network);
@@ -78,15 +71,48 @@ function App() {
         console.error("Error checking contract:", err);
       }
       
+      setAccount(accountAddress);
       setContract(votingContract);
 
-      window.ethereum.on('accountsChanged', (accounts) => {
-        setAccount(accounts[0]);
-        window.location.reload();
-      });
+      // Set up account change listener only once
+      if (!window.ethereum._accountsChangedListenerSet) {
+        window.ethereum.on('accountsChanged', (accounts) => {
+          if (accounts.length > 0) {
+            setAccount(accounts[0]);
+            window.location.reload();
+          } else {
+            setAccount(null);
+            setContract(null);
+          }
+        });
+        window.ethereum._accountsChangedListenerSet = true;
+      }
+    } catch (error) {
+      console.error("Error setting up provider:", error);
+      alert("Failed to connect: " + error.message);
+    }
+  };
+
+  const connectWallet = async () => {
+    try {
+      if (typeof window.ethereum === 'undefined') {
+        alert('Please install MetaMask!');
+        return;
+      }
+
+      // Request account access
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      await setupProvider(accounts[0]);
     } catch (error) {
       console.error("Error connecting wallet:", error);
-      alert("Failed to connect wallet: " + error.message);
+      // More user-friendly error messages
+      if (error.code === -32002) {
+        alert("Connection request already pending. Please check MetaMask and approve the connection request.");
+      } else if (error.code === 4001) {
+        alert("Connection rejected. Please approve the connection in MetaMask to use this app.");
+      } else {
+        alert("Failed to connect wallet: " + error.message);
+      }
     }
   };
 
